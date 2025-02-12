@@ -9,7 +9,7 @@ Scenario: Successfull login with valid username and password
     Given  I am on the login page
 	When I enter a valid username "hashba95@gmail.com" and password "Hashsab@95"
 	And I click the login button
-	Then I should be redirected to the dashboard
+	Then I should be redirected to the profile page
 
 @SmokeTest
 Scenario: Login with already used username

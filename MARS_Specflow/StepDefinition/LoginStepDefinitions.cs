@@ -10,7 +10,12 @@ namespace MARS
     [Binding]
     public class LoginStepDefinitions
     {
-        IWebDriver driver = new ChromeDriver();
+        private IWebDriver driver;
+
+        public LoginStepDefinitions()
+        {
+            this.driver = Hooks.TestHooks.driver;
+        }
 
         [Given(@"I am on the login page")]
         public void GivenIAmOnTheLoginPage()
@@ -52,11 +57,11 @@ namespace MARS
             Thread.Sleep(5000);
         }
 
-        [Then(@"I should be redirected to the dashboard")]
-        public void ThenIShouldBeRedirectedToTheDashboard()
+        [Then(@"I should be redirected to the profile page")]
+        public void ThenIShouldBeRedirectedToTheProfilePage()
         {
-            IWebElement newCode = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[1]/div/a[1]"));
-            Assert.That(newCode.Text == "Dashboard", "Userlogged in successfully and redirected to the dashboard");
+            IWebElement newCode = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[1]/div/a[2]"));
+            Assert.That(newCode.Text == "Profile", "Userlogged in successfully and redirected to the profile page");
 
         }
 
@@ -81,8 +86,6 @@ namespace MARS
             Assert.That(sendVerificationEmail.Text == "Send Verification Email", "User was not able to login");
 
         }
-
-
 
         [When(@"I leave the username and password fields blank")]
         public void WhenILeaveTheUsernameAndPasswordFieldsBlank()
@@ -150,10 +153,10 @@ namespace MARS
         [Then(@"a Send verification email dialogue box pops up")]
         public void ThenASendVerificationEmailDialogueBoxPopsUp()
         {
-            IWebElement popUpBox = driver.FindElement(By.XPath("/html/body/div[2]/div/div/form/div/div[2]/div"));
-            Assert.That(popUpBox.Text == "SEND VERIFICATION EMAIL", "User was not able to login");
+            IWebElement popUpBox = driver.FindElement(By.XPath("//*[@id=\"submit-btn\"]"));
+            Assert.That(popUpBox.Text == "Send Verification Email", "User was not able to login");
         }
-        
+        //*[@id="submit-btn"]
         [When(@"I select the Remember_Me checkbox")]
         public void WhenISelectTheRemember_MeCheckbox()
         {
