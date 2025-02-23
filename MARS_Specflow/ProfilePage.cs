@@ -96,21 +96,33 @@ namespace MARS
 
         }
 
-        public void DeletingLanguage()
+        public void DeleteLanguage(string languageName)
         {
             //Deleting the language
 
-            //Click on the delete icon beside the language you want to delete
-            IWebElement deleteIcon = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[1]/tr/td[3]/span[2]/i"));
-            Thread.Sleep(2000);
+            // Locate the row that contains the language
+            IWebElement languageRow = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]")).FirstOrDefault(row => row.Text.Contains(languageName));
 
+            if (languageRow != null)
+            {
+                // Click the delete button/icon for that skill
+                languageRow.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]")).Click();
+                Thread.Sleep(2000); // Wait for the action to be processed
+            }
+
+        }
+        
+        public bool IsLanguagePresent(string languageName)
+        {
+            return driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]"))
+                         .Any(language => language.Text.Equals(languageName, StringComparison.OrdinalIgnoreCase));
         }
 
         public void AddingNewSkill(string skill, string level)
         {
             try
             {
-                //Click on the Language Tab
+                //Click on the Skills Tab
                 IWebElement SkillsTab = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[1]/a[2]"));
                 SkillsTab.Click();
             }
@@ -128,12 +140,15 @@ namespace MARS
             //Type a skill into Skill Textbox 
             IWebElement SkillTextBox = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[1]/input"));
             SkillTextBox.SendKeys(skill);
+            Thread.Sleep(2000);
 
             //Click Choose Skill Level dropdown and select a level
             IWebElement SkillLevelDropdown = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[2]/select"));
             SkillLevelDropdown.Click();
+            Thread.Sleep(2000);
             SelectElement selectLevel = new SelectElement(SkillLevelDropdown);
             selectLevel.SelectByText(level);
+            Thread.Sleep(3000);
 
             //Click Add Button 
             IWebElement addButton = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[1]"));
@@ -148,6 +163,10 @@ namespace MARS
 
             Thread.Sleep(3000);
 
+            //Click on the Skills Tab
+            IWebElement SkillsTab = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[1]/a[2]"));
+            SkillsTab.Click();
+
             //Click AddNew Button 
             IWebElement addNew = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div"));
             addNew.Click();
@@ -155,7 +174,7 @@ namespace MARS
 
             //Type a Skill into Skill Textbox 
             IWebElement SkillTextBox = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[1]/input"));
-            SkillTextBox.SendKeys("Spanish");
+            SkillTextBox.SendKeys("Sewing");
 
             //Click Add Button 
             IWebElement addButton = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[1]"));
@@ -165,6 +184,10 @@ namespace MARS
 
         public void EditingSkill(string skill)
         {
+            //Click on the Skills Tab
+            IWebElement SkillsTab = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[1]/a[2]"));
+            SkillsTab.Click();
+
             //Editing the skill
 
             //Click on the pencil icon
@@ -172,14 +195,14 @@ namespace MARS
             pencilIcon.Click();
 
             //Edit skill on the skill textbox 
-            IWebElement SkillTextBox = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[1]/input"));
+            IWebElement SkillTextBox = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td/div/div[1]/input"));
             SkillTextBox.Click();
             SkillTextBox.Clear();
             SkillTextBox.SendKeys(skill);
             Thread.Sleep(3000);
 
             //Edit level on the level dropdown box
-            IWebElement SkillLevelDropdown = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[2]/select"));
+            IWebElement SkillLevelDropdown = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td/div/div[2]/select"));
             SkillLevelDropdown.Click();
             var selectElement = new SelectElement(SkillLevelDropdown);
             selectElement.SelectByText("Expert");
@@ -188,20 +211,37 @@ namespace MARS
             //Click  Update Button
             IWebElement updateButton = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td/div/span/input[1]"));
             updateButton.Click();
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
 
         }
 
-        public void DeletingSkill()
+        public void DeleteSkill(string skillName)
         {
             //Deleting the skill
 
-            //Click on the delete icon beside the skill you want to delete
-            IWebElement deleteIcon = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td[3]/span[2]/i"));
+            //Click on the Skills Tab
+            IWebElement SkillsTab = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[1]/a[2]"));
+            SkillsTab.Click();
             Thread.Sleep(2000);
 
+            // Locate the row that contains the skill
+            IWebElement skillRow = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[1]/tr/td[1]")).FirstOrDefault(row => row.Text.Contains(skillName));
+
+            if (skillRow != null)
+            {
+                // Click the delete button/icon for that skill
+                skillRow.FindElement(By.XPath(".//td[last()]/span[@class='remove']")).Click();
+                Thread.Sleep(2000); // Wait for the action to be processed
+            }
         }
 
+        public bool IsSkillPresent(string skillName)
+        {
+            return driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[1]/tr/td[1]"))
+                         .Any(skill => skill.Text.Equals(skillName, StringComparison.OrdinalIgnoreCase));
+        }
     }
+
+    
 }
 

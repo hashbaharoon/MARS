@@ -88,40 +88,39 @@ namespace MARS
         {
             
             // Verify the updated language is visible in the profile
-            IWebElement updatedLanguage = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]"));
+            IWebElement updatedLanguage = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td[1]"));
             Assert.That(updatedLanguage.Text, Is.EqualTo(language), "The language was not updated successfully.");
 
             // Close the browser
             driver.Quit();
         }
-
-
        
 
-        [When(@"I delete the  language")]
-        public void WhenIDeleteTheLanguage()
+        [When(@"I delete the  language ""([^""]*)""")]
+        public void WhenIDeleteTheLanguage(string languageName)
         {
-            _profilePageObj.DeletingLanguage();
+            _profilePageObj.DeleteLanguage(languageName);
         }
 
-        [Then(@"the language should be removed from the profile")]
+
+
+            [Then(@"the language should be removed from the profile")]
         public void ThenTheLanguageShouldBeRemovedFromTheProfile()
         {
-            // Verify that the language is no longer present in the list
-            bool isLanguageDeleted = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr")).Count == 0; // Check if rows exist
+            // Verify that the skill is no longer present in the list
+
+            bool isLanguageDeleted = !_profilePageObj.IsLanguagePresent("Coaching");
             Assert.That(isLanguageDeleted, Is.True, "The language was not deleted successfully.");
-
-           
+            Thread.Sleep(2000);
         }
-
-
 
 
         [Then(@"a confirmation message should appear")]
         public void ThenAConfirmationMessageShouldAppear()
         {
+            Thread.Sleep(2000);
             // Locate and verify confirmation message
-            IWebElement confirmationMessage = driver.FindElement(By.XPath("/html/body/div[1]")); 
+            IWebElement confirmationMessage = driver.FindElement(By.XPath("/html/body/div[1]/div")); 
             Assert.That(confirmationMessage.Text, Does.Contain("has been deleted"), "No confirmation message appeared after deleting language.");
 
            

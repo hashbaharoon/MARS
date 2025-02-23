@@ -27,14 +27,14 @@ Scenario: Edit existing language in the profile
 Scenario: Delete an existing language in the profile
    Given I logged in to MARS portal successfully
 	When I navigate to profile page
-	When  I delete the  language
+	When  I delete the  language "Mandarin"
 	Then the language should be removed from the profile
 	And a confirmation message should appear
 
    Scenario: Add a duplicate language with the same level
     Given I logged in to MARS portal successfully
     And I have an existing language added to my profile
-    When I try to add the same language "Mandarin" with the same level "Basic"
+    When I try to add the same language "Hindi" with the same level "Basic"
     And an error message should appear stating that this language already exist
 
   Scenario: Add a language with unsupported characters  

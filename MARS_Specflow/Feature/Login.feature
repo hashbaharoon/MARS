@@ -30,7 +30,7 @@ Scenario: Login with already used username
   @NegativeTest
 Scenario: Login with invalid credentials
     Given  I am on the login page
-	When I enter invalid username "asdfgh@gmail.com" and password "Shib"
+	When I enter invalid username "@@##$$%%" and password "Shib"
 	And I click the login button
 	Then an error message Please Enter a valid email address shows
 

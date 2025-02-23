@@ -11,7 +11,7 @@ Scenario: Add new skill with valid data
 	Given I logged in to MARS portal successfully
 	When I navigate to profile page
 	When I add new skill "Presentation" with a level "Beginner"
-	Then the skill should be added successfully.
+	Then the skill should be added successfully
 
 Scenario: Add new skill without selecting a level
    Given I logged in to MARS portal successfully
@@ -23,24 +23,24 @@ Scenario: Edit existing skill in the profile
    Given I logged in to MARS portal successfully
 	When I navigate to profile page
 	When  I update the existing skill to a new skill name "Coaching"
-	Then the changes should be saved successfully and updated "Coaching" should be visible in the profile
+	Then the changes should be saved successfully and updated skill "Coaching" should be visible in the profile
 	
 
 Scenario: Delete an existing skill in the profile
-   Given I logged in to MARS portal 
+   Given I logged in to MARS portal successfully
 	When I navigate to profile page
-	When  I delete the skill
+	When  I delete the skill "Coaching"
 	Then the skill should be removed from the profile
 	And a confirmation message should appear
 
    Scenario: Add a duplicate skill with the same level
     Given I logged in to MARS portal successfully
     And I have an existing skill added to my profile
-    When I try to add the same skill "Coaching" with the same level "Expert"
-    And an error message should appear stating that this skill already exist
+    When I try to add the same skill "Presentation" with the same level "Beginner"
+    And an error message should appear stating that Duplicated Data
 
    Scenario: Add a skill with unsupported characters  
   Given I logged in to MARS portal successfully  
-  When I try to add a skill name "@@##$$%%" with unsupported characters with a level "Basic"
-  Then the system should not allow it  
+  When I try to add a skill name "@@##$$%%" with unsupported characters with a level "Beginner"
+  Then the system should not allow to save the skill
   And an error message should appear stating undefined 

@@ -153,8 +153,9 @@ namespace MARS
         [Then(@"a Send verification email dialogue box pops up")]
         public void ThenASendVerificationEmailDialogueBoxPopsUp()
         {
-            IWebElement popUpBox = driver.FindElement(By.XPath("//*[@id=\"submit-btn\"]"));
-            Assert.That(popUpBox.Text == "Send Verification Email", "User was not able to login");
+            Thread.Sleep(1000); 
+            IWebElement popUpBox = driver.FindElement(By.XPath("/html/body/div[2]/div/div/form/div/div[2]/div"));
+            Assert.That(popUpBox.Text == "SEND VERIFICATION EMAIL", "User was not able to login");
         }
         //*[@id="submit-btn"]
         [When(@"I select the Remember_Me checkbox")]
@@ -178,7 +179,9 @@ namespace MARS
             newDriver.Navigate().GoToUrl("http://localhost:5000/");
 
             // Navigate back to the website
+            Thread.Sleep(2000);
             newDriver.Navigate().GoToUrl("http://localhost:5000/");
+            Thread.Sleep(2000);
 
             // Verify if the user is still logged in (this might involve checking a specific element)
             IWebElement isLoggedIn = newDriver.FindElement(By.XPath("//*[@id=\"home\"]/div/div/div[1]/div[2]/div/span"));
