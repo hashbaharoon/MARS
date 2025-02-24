@@ -46,9 +46,6 @@ namespace MARS
         {
             _profilePageObj.AddingNewLanguage(language, level);
         }
-
-     
-
     
         [Then(@"the language should be added successfully")]
         public void ThenTheLanguageShouldBeAddedSuccessfully()
@@ -64,7 +61,6 @@ namespace MARS
         [When(@"I add new language without selecting a level")]
         public void WhenIAddNewLanguageWithoutSelectingALevel()
         {
-
             _profilePageObj.AddingNewLanguageWithoutLevel();
         }
 
@@ -176,28 +172,6 @@ namespace MARS
             Assert.That(error_msg.Text == "undefined", "Error message not displayed");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [Given(@"I have already added the maximum number of allowed languages")]
         public void GivenIHaveAlreadyAddedTheMaximumNumberOfAllowedLanguages()
         {
@@ -229,11 +203,6 @@ namespace MARS
                 Assert.Pass("The 'Add' button is not visible as expected.");
             }
         }
-
-
-        
-        
-
 
     }
 
