@@ -107,23 +107,20 @@ namespace MARS
             [Then(@"the language should be removed from the profile")]
         public void ThenTheLanguageShouldBeRemovedFromTheProfile()
         {
-            // Verify that the skill is no longer present in the list
-
-            bool isLanguageDeleted = !_profilePageObj.IsLanguagePresent("Coaching");
-            Assert.That(isLanguageDeleted, Is.True, "The language was not deleted successfully.");
+            // Verify that the language is no longer present in the list
             Thread.Sleep(2000);
+            bool isLanguageDeleted = !_profilePageObj.IsLanguagePresent("Mandarin");
+            Assert.That(isLanguageDeleted, Is.True, "The language was not deleted successfully.");
+            
         }
 
 
         [Then(@"a confirmation message should appear")]
         public void ThenAConfirmationMessageShouldAppear()
-        {
-            Thread.Sleep(2000);
+        {   
             // Locate and verify confirmation message
             IWebElement confirmationMessage = driver.FindElement(By.XPath("/html/body/div[1]/div")); 
-            Assert.That(confirmationMessage.Text, Does.Contain("has been deleted"), "No confirmation message appeared after deleting language.");
-
-           
+            Assert.That(confirmationMessage.Text, Does.Contain("has been deleted"), "No confirmation message appeared after deleting language.");   
         }
 
         [Given(@"I have an existing language added to my profile")]

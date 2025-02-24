@@ -100,13 +100,18 @@ namespace MARS
         {
             //Deleting the language
 
-            // Locate the row that contains the language
-            IWebElement languageRow = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]")).FirstOrDefault(row => row.Text.Contains(languageName));
+        
+            // Locate all rows in the table
+            var languageRows = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[1]/tr"));
+
+            // Find the row that contains the skill in the first column
+            IWebElement languageRow = languageRows.FirstOrDefault(row => row.FindElement(By.XPath("./td[1]")).Text.Contains(languageName));
 
             if (languageRow != null)
             {
+                Thread.Sleep(1000);
                 // Click the delete button/icon for that skill
-                languageRow.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]")).Click();
+                languageRow.FindElement(By.XPath(".//td[last()]/span[2]/i")).Click();
                 Thread.Sleep(2000); // Wait for the action to be processed
             }
 
@@ -224,15 +229,21 @@ namespace MARS
             SkillsTab.Click();
             Thread.Sleep(2000);
 
-            // Locate the row that contains the skill
-            IWebElement skillRow = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[1]/tr/td[1]")).FirstOrDefault(row => row.Text.Contains(skillName));
+
+            // Locate all rows in the table
+            var skillRows = driver.FindElements(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[1]/tr"));
+
+            // Find the row that contains the skill in the first column
+            IWebElement skillRow = skillRows.FirstOrDefault(row => row.FindElement(By.XPath("./td[1]")).Text.Contains(skillName));
 
             if (skillRow != null)
             {
+                Thread.Sleep(1000);
                 // Click the delete button/icon for that skill
-                skillRow.FindElement(By.XPath(".//td[last()]/span[@class='remove']")).Click();
+                skillRow.FindElement(By.XPath(".//td[last()]/span[2]/i")).Click();
                 Thread.Sleep(2000); // Wait for the action to be processed
             }
+          
         }
 
         public bool IsSkillPresent(string skillName)
